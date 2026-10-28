@@ -39,6 +39,38 @@ class _Case3FlexExperimentState extends State<Case3FlexExperiment> {
         ),
         const SizedBox(height: 12),
 
+        // 表现记录：随开关状态记录观察结论
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.amber.shade50,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.amber.shade200),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.assignment_outlined, size: 18, color: Colors.orange.shade800),
+                  const SizedBox(width: 6),
+                  const Text('表现记录', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                _longText
+                    ? '中间栏超长时：Expanded 版仍保持 2:1:1，文本省略且不溢出；'
+                        'Flexible 版允许子项小于分配空间；无 Expanded 版会把内容挤爆，出现 RenderFlex 黄黑警告。'
+                    : '内容正常时：Expanded 版严格按 2:1:1 分配；'
+                        'Flexible 版空间富余时不强制撑满；无 Expanded 版只按内容宽度排布，右侧留白。',
+                style: TextStyle(fontSize: 12, height: 1.6, color: Colors.brown.shade700),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+
         // Expanded 版（正确写法）
         _buildSection(
           title: '✅ Expanded 2:1:1（推荐）',
