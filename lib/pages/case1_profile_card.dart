@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 
 /// 课堂案例：profile_card 个人名片页
 ///
-/// 步骤一（已完成）：骨架与对齐
-/// 步骤二：容器美化 —— 卡片圆角/阴影/留白 + 头像状态徽标
+/// 步骤一（骨架与对齐）：
+/// - Column 自上而下组织页面；头像与姓名用 Row 水平排列
+/// - 统计条三个数字块各包一层 Expanded，均分 Row 的剩余宽度
+/// - 标签云用 Wrap 自动换行
+///
+/// 步骤二（容器美化）：
+/// - Container + BoxDecoration 实现圆角、阴影与留白
+/// - Stack + Positioned 实现头像右下角的在线状态徽标
+///
+/// 步骤三（设计稿对照）：
+/// - 间距统一取 4 的倍数（4/8/12/16/20/24）
+/// - 宽屏下限制最大宽度，窄屏下文字省略，运行无 RenderFlex 溢出
 class Case1ProfileCard extends StatelessWidget {
   const Case1ProfileCard({super.key});
 
@@ -20,16 +30,22 @@ class Case1ProfileCard extends StatelessWidget {
       child: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
-          child: const Column(
-            children: [
-              _ProfileHeader(),
-              SizedBox(height: 24),
-              _StatsCard(),
-              SizedBox(height: 24),
-              _TagsCard(),
-              SizedBox(height: 24),
-              _ActionButtons(),
-            ],
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _ProfileHeader(),
+                  SizedBox(height: 16),
+                  _StatsCard(),
+                  SizedBox(height: 16),
+                  _TagsCard(),
+                  SizedBox(height: 20),
+                  _ActionButtons(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -37,7 +53,7 @@ class Case1ProfileCard extends StatelessWidget {
   }
 }
 
-/// 卡片统一装饰：白底 + 16 圆角 + 轻阴影
+/// 卡片统一装饰：白底 + 16 圆角 + 轻阴影，避免每个卡片重复书写
 const BoxDecoration _cardDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -50,7 +66,7 @@ const BoxDecoration _cardDecoration = BoxDecoration(
   ],
 );
 
-/// 头像区：CircleAvatar + Stack 在线状态徽标 + 姓名/签名两行 Text
+/// 头像区：CircleAvatar + 姓名/签名两行 Text + Stack 在线状态徽标
 class _ProfileHeader extends StatelessWidget {
   const _ProfileHeader();
 
@@ -86,13 +102,15 @@ class _ProfileHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 16),
-          // Expanded 约束文字宽度，避免长文本把头像挤出屏幕
+          // Expanded 约束文字宽度，长文本不会把头像挤出屏幕
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Flutter 学习者',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -102,6 +120,8 @@ class _ProfileHeader extends StatelessWidget {
                 SizedBox(height: 4),
                 Text(
                   '专注基础组件与布局系统',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 13, color: Colors.black54),
                 ),
               ],
@@ -113,7 +133,7 @@ class _ProfileHeader extends StatelessWidget {
   }
 }
 
-/// 统计条：卡片装饰 + 三个 Expanded 数字块 + 1px 分隔线
+/// 统计条：三个 Expanded 数字块均分宽度，中间用 1px 分隔线
 class _StatsCard extends StatelessWidget {
   const _StatsCard();
 
@@ -163,7 +183,7 @@ class _StatsCard extends StatelessWidget {
   }
 }
 
-/// 标签云：卡片装饰 + Wrap 流式排列
+/// 标签云：Wrap 按行流动排列，空间不足自动换行
 class _TagsCard extends StatelessWidget {
   const _TagsCard();
 
