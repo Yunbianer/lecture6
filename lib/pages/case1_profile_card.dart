@@ -53,15 +53,15 @@ class Case1ProfileCard extends StatelessWidget {
   }
 }
 
-/// 卡片统一装饰：白底 + 16 圆角 + 轻阴影，避免每个卡片重复书写
+/// 卡片统一装饰：白底 + 12 圆角 + 轻阴影，避免每个卡片重复书写
 const BoxDecoration _cardDecoration = BoxDecoration(
   color: Colors.white,
-  borderRadius: BorderRadius.all(Radius.circular(16)),
+  borderRadius: BorderRadius.all(Radius.circular(12)),
   boxShadow: [
     BoxShadow(
       color: Colors.black12,
-      blurRadius: 12,
-      offset: Offset(0, 4),
+      blurRadius: 8,
+      offset: Offset(0, 2),
     ),
   ],
 );
@@ -73,7 +73,7 @@ class _ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: _cardDecoration,
       child: Row(
         children: [
@@ -101,7 +101,7 @@ class _ProfileHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           // Expanded 约束文字宽度，长文本不会把头像挤出屏幕
           const Expanded(
             child: Column(
@@ -140,7 +140,7 @@ class _StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: _cardDecoration,
       child: Row(
         children: [
@@ -200,7 +200,7 @@ class _TagsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: _cardDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
